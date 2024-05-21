@@ -28,8 +28,8 @@ export const addTime = async (time: any, user: string) => {
   return data.data;
 };
 
-export const removeTime = async (time: any) => {
-  const { data } = await axios.delete(`${API_URL}/times/${time._id}`);
+export const removeTime = async (id: any) => {
+  const { data } = await axios.delete(`${API_URL}/times/${id}`);
   return data.data;
 };
 
@@ -48,7 +48,7 @@ export const userLogin = async (data: any) => {
 export const userRegister = async (data: any) => {
   try {
     const res = await axios.post(`${API_URL}/user/register`, data);
-    return res.data.data;
+    return res.data;
   } catch (error: any) {
     return {
       error: true,

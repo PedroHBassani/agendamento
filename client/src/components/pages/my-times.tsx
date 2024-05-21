@@ -13,7 +13,7 @@ import { Time } from "./time";
 import { Ban } from "lucide-react";
 import { Modal } from "../ui/modal";
 import { toast } from "sonner";
-import { getTimesByUser } from "@/api/requests";
+import { getTimesByUser, removeTime } from "@/api/requests";
 import Loading from "../ui/loading";
 
 interface MyTimesPageProps {
@@ -43,7 +43,8 @@ const MyTimesPage = ({ setPage, user }: MyTimesPageProps) => {
     fetch();
   }, []);
 
-  const handleCancel = (id: string) => {
+  const handleCancel = async (id: string) => {
+    await removeTime(id)
     setTimes(times.filter((time) => time.id !== id));
     toast("Cancelamento de horário", {
       description: "Seu horário foi cancelado com sucesso.",
