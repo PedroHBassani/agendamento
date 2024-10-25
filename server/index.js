@@ -3,6 +3,8 @@ import app from "./src/app.js";
 
 const port = process.env.PORT || 3002;
 
-app.listen(port, () => {
+const ip = process.env.IP || "localhost";
+
+app.listen(port, ip, () => {
   console.log(`Servidor escutando em http://localhost:${port}`);
 });
