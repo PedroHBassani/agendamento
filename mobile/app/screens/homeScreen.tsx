@@ -13,7 +13,7 @@ interface HomeProps {
 }
 
 const HomeScreen = ({ user, onLogout }: HomeProps) => {
-  const [page, setPage] = useState<string>("home");
+  const [page, setPage] = useState<string>("admin");
 
   return (
     <View style={styles.container}>
@@ -21,12 +21,13 @@ const HomeScreen = ({ user, onLogout }: HomeProps) => {
         <Title title={"Olá, " + user.name.split(" ")[0]} />
       )}
 
-      {getPage(page, setPage, { user, onLogout })}
+      {getPage(user, page, setPage, { user, onLogout })}
     </View>
   );
 };
 
 const getPage = (
+  user: userType,
   page: string,
   setPage: React.Dispatch<React.SetStateAction<string>>,
   props: HomeProps
@@ -37,7 +38,9 @@ const getPage = (
     case "mySchedules":
       return "MySchedules";
     case "admin":
-      return <PanelScreen changePage={setPage} />;
+      if (user && user.role == "admin")
+        return <PanelScreen changePage={setPage} />;
+      else return <HomeMenu setPage={setPage} onLogout={props.onLogout} />;
     default:
       return <HomeMenu setPage={setPage} onLogout={props.onLogout} />;
   }

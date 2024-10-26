@@ -6,5 +6,5 @@ const port = process.env.PORT || 3002;
 const ip = process.env.IP || "localhost";
 
 app.listen(port, ip, () => {
-  console.log(`Servidor escutando em http://localhost:${port}`);
+  console.log(`Servidor escutando em http://${ip}:${port}`);
 });

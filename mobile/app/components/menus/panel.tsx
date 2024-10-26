@@ -17,12 +17,12 @@ const PanelMenu = ({ setPage }: PanelMenuProps) => {
       <OptionButton
         icon={<AwesomeIcon name="volleyball" size={20} color="#000" />}
         text={"Quadras"}
-        onPress={() => setPage("reserve")}
+        onPress={() => setPage("courts")}
       />
       <OptionButton
         icon={<Feather name="clock" size={20} color="#000" />}
         text={"Horários"}
-        onPress={() => setPage("mySchedules")}
+        onPress={() => setPage("times")}
       />
     </>
   );
