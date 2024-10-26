@@ -43,7 +43,7 @@ const getData = async () => {
 };
 
 const PanelScreen = ({ changePage }: PanelProps) => {
-  const [page, setPage] = useState<string>("courts");
+  const [page, setPage] = useState<string>("home");
   const [data, setData] = useState<adminResponseType>({
     courts: [],
     users: [],

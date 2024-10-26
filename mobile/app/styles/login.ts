@@ -34,7 +34,7 @@ export default StyleSheet.create({
     paddingHorizontal: 8,
     color: "#fff",
     borderRadius: 4,
-    marginTop: 5, // espaço entre o label e o input
+    marginTop: 5,
   },
   button: {
     backgroundColor: "#FFF",

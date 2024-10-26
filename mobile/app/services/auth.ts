@@ -13,13 +13,14 @@ export const auth = async (email: string, password: string) => {
     }
 
     const token = response.data.data.token;
-    const { name, role, email: userEmail } = response.data.data.user;
+    const { name, role, email: userEmail, _id } = response.data.data.user;
 
     await AsyncStorage.multiSet([
       ["authToken", token],
       ["userName", name],
       ["userEmail", userEmail],
       ["userRole", role],
+      ["userId", _id],
     ]);
 
     return {
@@ -55,14 +56,26 @@ export const register = async (
 
 export const getUserData = async () => {
   try {
-    const token = await AsyncStorage.getItem("authToken");
-    const name = await AsyncStorage.getItem("userName");
-    const email = await AsyncStorage.getItem("userEmail");
-    const role = await AsyncStorage.getItem("userRole");
-
-    return { token, name, email, role };
+    const [[_, token], [__, name], [___, email], [____, role], [_____, id]] =
+      await AsyncStorage.multiGet([
+        "authToken",
+        "userName",
+        "userEmail",
+        "userRole",
+        "userId",
+      ]);
+    return { token, name, email, role, _id: id };
   } catch (error) {
     console.error("Failed to retrieve user data:", error);
+    return null;
+  }
+};
+
+export const getUserToken = async () => {
+  try {
+    return await AsyncStorage.getItem("authToken");
+  } catch (error) {
+    console.error("Failed to retrieve user token:", error);
     return null;
   }
 };
@@ -74,6 +87,7 @@ export const logout = async () => {
       "userName",
       "userEmail",
       "userRole",
+      "userId",
     ]);
   } catch (error) {
     console.error("Failed to logout:", error);

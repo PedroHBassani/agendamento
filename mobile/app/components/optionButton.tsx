@@ -8,7 +8,7 @@ import {
 import styles from "../styles/optionButton";
 
 interface OptionButtonProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   text: string;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;

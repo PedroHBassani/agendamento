@@ -34,7 +34,7 @@ export const getFreeTimes = async (req, res) => {
     const query = {
       court,
       date: {
-        $gte: new Date(),
+        $gte: new Date().setHours(0, 0, 0, 0),
         $lt: new Date(new Date().setDate(new Date().getDate() + 12)),
       },
     };
@@ -78,6 +78,8 @@ export const getFreeTimes = async (req, res) => {
 export const addTime = async (req, res) => {
   const { court, date, hour, user } = req.body;
   try {
+    console.log(req.body);
+
     const invertedDate = date.split("/").reverse().join("/");
     const time = new Time({
       court,

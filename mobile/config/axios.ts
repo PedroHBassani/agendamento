@@ -1,5 +1,5 @@
-import { getUserData } from "@/app/services/auth";
 import axios from "axios";
+import { getUserToken } from "@/app/services/auth";
 
 const api = axios.create({
   baseURL: "http://192.168.0.83:3002",
@@ -11,9 +11,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const userData = await getUserData();
-    if (userData?.token) {
-      config.headers.Authorization = `Bearer ${userData.token}`;
+    const token = await getUserToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
