@@ -10,8 +10,6 @@ interface TimesProps {
 }
 
 const Times = ({ times, canRemove = false, onRemove }: TimesProps) => {
-  console.log(times);
-
   const getItem = ({ item }: { item: TimesType }) => (
     <View key={item.id} style={styles.itemContainer}>
       <Ionicons

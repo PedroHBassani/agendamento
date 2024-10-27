@@ -64,7 +64,6 @@ const Reserve = ({ setPage }: ReserveProps) => {
       selectedTime,
       user?._id || ""
     );
-    console.log(response);
 
     setLoadingSave(false);
     showToast("Reserva realizada com sucesso!", "success");
@@ -128,6 +127,11 @@ const Reserve = ({ setPage }: ReserveProps) => {
                 selectedValue={selectedDate}
                 onValueChange={(value) => {
                   setSelectedDate(value);
+                  setSelectedTime(
+                    freeTimes
+                      .filter((time) => time.date === value)
+                      .map((time) => time.hour)[0]
+                  );
                 }}
               />
 

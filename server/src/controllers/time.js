@@ -88,8 +88,6 @@ export const getFreeTimes = async (req, res) => {
 export const addTime = async (req, res) => {
   const { court, date, hour, user } = req.body;
   try {
-    console.log(req.body);
-
     const invertedDate = date.split("/").reverse().join("/");
     const time = new Time({
       court,

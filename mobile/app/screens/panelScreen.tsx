@@ -64,7 +64,6 @@ const PanelScreen = ({ changePage }: PanelProps) => {
     const fetchData = async () => {
       setLoading(true);
       const response = await getData();
-      console.log(response);
       setLoading(false);
       setData(response);
     };

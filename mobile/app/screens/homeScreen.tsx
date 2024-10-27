@@ -42,9 +42,14 @@ const getPage = (
     case "admin":
       if (user && user.role == "admin")
         return <PanelScreen changePage={setPage} />;
-      else return <HomeMenu setPage={setPage} onLogout={props.onLogout} />;
+      else
+        return (
+          <HomeMenu setPage={setPage} onLogout={props.onLogout} user={user} />
+        );
     default:
-      return <HomeMenu setPage={setPage} onLogout={props.onLogout} />;
+      return (
+        <HomeMenu setPage={setPage} onLogout={props.onLogout} user={user} />
+      );
   }
 };
 
