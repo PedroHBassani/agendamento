@@ -19,6 +19,7 @@ export type userType = {
   email: string;
   role: string;
   token: string;
+  _id?: string;
 };
 
 const AuthScreen = () => {

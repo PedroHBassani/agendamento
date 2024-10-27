@@ -11,17 +11,27 @@ export const formatDate = (date) => {
 export const getTimesByUser = async (req, res) => {
   const { user } = req.params;
   try {
-    const times = await Time.find({
+    const queryTime = {
+      date: {
+        $gte: new Date().setHours(0, 0, 0, 0),
+      },
       user: user,
-    }).populate("court user");
-    const timesFormatted = times.map((time) => ({
-      id: time._id,
-      date: formatDate(time.date),
-      hour: time.time,
-      user: time.user.name,
-      value: time.court.price,
-      court: time.court.name,
-    }));
+    };
+
+    const times = await Time.find(queryTime)
+      .populate("court user")
+      .sort({ date: 1, time: 1 });
+
+    const timesFormatted = times
+      .filter((time) => time.court != null)
+      .map((time) => ({
+        id: time._id,
+        date: formatDate(time.date),
+        hour: time.time,
+        user: time.user.name,
+        value: time.court.price ?? 0,
+        court: time.court.name ?? "",
+      }));
     return success(res, "", timesFormatted);
   } catch (error) {
     return serverError(res, error);

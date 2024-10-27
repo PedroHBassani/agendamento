@@ -8,6 +8,7 @@ import Users from "./panel/users";
 import api from "@/config/axios";
 import Loading from "../components/loading";
 import Courts from "./panel/courts";
+import Times from "./panel/times";
 
 interface PanelProps {
   changePage: React.Dispatch<React.SetStateAction<string>>;
@@ -29,12 +30,19 @@ export type users = {
   _id: string;
 };
 
-export type times = {};
+export type times = {
+  court: string;
+  date: string;
+  hour: string;
+  id: string;
+  user: string;
+  value: number;
+};
 
 type adminResponseType = {
   courts: court[];
   users: users[];
-  times: any[];
+  times: times[];
 };
 
 const getData = async () => {
@@ -96,6 +104,14 @@ const getPage = (
         <Courts
           onBack={() => setPage("home")}
           courts={data.courts}
+          onReload={onReload}
+        />
+      );
+    case "times":
+      return (
+        <Times
+          onBack={() => setPage("home")}
+          times={data.times}
           onReload={onReload}
         />
       );

@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
   },
+  deleteButton: {
+    backgroundColor: "red",
+    color: "#fff",
+  },
 });
 
 export default styles;

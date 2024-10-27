@@ -20,3 +20,27 @@ export const addCourt = async (req, res) => {
     return serverError(res, error);
   }
 };
+
+export const updateCourt = async (req, res) => {
+  const { id } = req.params;
+  const { name, price } = req.body;
+  try {
+    const court = await Court.findById(id);
+    court.name = name;
+    court.price = price;
+    await court.save();
+    return success(res, "Quadra atualizada com sucesso!", court);
+  } catch (error) {
+    return serverError(res, error);
+  }
+};
+
+export const deleteCourt = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Court.findByIdAndDelete(id);
+    return success(res, "Quadra deletada com sucesso!");
+  } catch (error) {
+    return serverError(res, error);
+  }
+};

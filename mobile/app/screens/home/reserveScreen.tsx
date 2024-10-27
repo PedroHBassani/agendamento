@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import { court, times } from "./panelScreen";
+import { court, times } from "@/app/screens/panelScreen";
 import api from "@/config/axios";
-import Title from "../components/title";
-import Loading from "../components/loading";
+import Title from "@/app/components/title";
+import Loading from "@/app/components/loading";
 
-import styles from "../styles/reserveScreen";
-import SelectInput from "../components/select";
-import Input from "../components/input";
-import OptionButton from "../components/optionButton";
-import { useToast } from "../context/toastContext";
-import { getUserData } from "../services/auth";
+import styles from "@/app/styles/reserveScreen";
+import SelectInput from "@/app/components/select";
+import OptionButton from "@/app/components/optionButton";
+import { useToast } from "@/app/context/toastContext";
+import { getUserData } from "@/app/services/auth";
 
 interface ReserveProps {
   setPage: (page: string) => void;

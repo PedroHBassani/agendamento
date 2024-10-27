@@ -6,7 +6,8 @@ import Title from "../components/title";
 import styles from "../styles/homeScreen";
 import HomeMenu from "../components/menus/home";
 import PanelScreen from "./panelScreen";
-import Reserve from "./reserveScreen";
+import Reserve from "./home/reserveScreen";
+import MyTimes from "./home/my-times";
 
 interface HomeProps {
   user: userType;
@@ -14,7 +15,7 @@ interface HomeProps {
 }
 
 const HomeScreen = ({ user, onLogout }: HomeProps) => {
-  const [page, setPage] = useState<string>("reserve");
+  const [page, setPage] = useState<string>("home");
 
   return (
     <View style={styles.container}>
@@ -36,8 +37,8 @@ const getPage = (
   switch (page) {
     case "reserve":
       return <Reserve setPage={setPage} />;
-    case "mySchedules":
-      return "MySchedules";
+    case "times":
+      return <MyTimes user={user} setPage={setPage} />;
     case "admin":
       if (user && user.role == "admin")
         return <PanelScreen changePage={setPage} />;

@@ -20,7 +20,7 @@ const HomeMenu = ({ setPage, onLogout }: HomeMenuProps) => {
       <OptionButton
         icon={<Feather name="clock" size={20} color="#000" />}
         text={"Meus Horários"}
-        onPress={() => setPage("mySchedules")}
+        onPress={() => setPage("times")}
       />
       <OptionButton
         icon={<Awesome name="key" size={20} color="#000" />}

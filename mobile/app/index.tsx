@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000000",
+    fontFamily: "Roboto_400Regular",
   },
 });
 

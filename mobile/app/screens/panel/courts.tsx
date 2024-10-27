@@ -22,28 +22,63 @@ const addCourtRequest = async (values: { name: string; price: number }) => {
   return response.data;
 };
 
+const editCourtRequest = async (values: court) => {
+  const response = await api.put(`/courts/${values._id}`, values);
+  return response.data;
+};
+
+const deleteCourtRequest = async (id: string) => {
+  const response = await api.delete(`/courts/${id}`);
+  return response.data;
+};
+
 const Courts = ({ onBack, onReload, courts }: CourtsProps) => {
-  const [addCourt, setAddCourt] = useState(false);
+  const [page, setPage] = useState("list");
+  const [edit, setEdit] = useState<court>({} as court);
   const [values, setValues] = useState({
     name: "",
     price: 0,
   });
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { showToast } = useToast();
 
   const addCourtHandler = async () => {
-    if (!values.name || values.price === 0) {
-      showToast("Preencha todos os campos", "error");
-      return;
+    if (page == "edit") {
+      if (!edit.name || edit.price === 0) {
+        showToast("Preencha todos os campos", "error");
+        return;
+      }
+    } else {
+      if (!values.name || values.price === 0) {
+        showToast("Preencha todos os campos", "error");
+        return;
+      }
     }
+
     setLoading(true);
-    const response = await addCourtRequest(values);
+    const response =
+      page == "add"
+        ? await addCourtRequest(values)
+        : await editCourtRequest(edit);
 
     setLoading(false);
     if (response.status === "success") {
       showToast(response.message, "success");
       setValues({ name: "", price: 0 });
-      setAddCourt(false);
+      setPage("list");
+      onReload();
+    }
+  };
+
+  const handleDelete = async () => {
+    setDeleteLoading(true);
+    const response = await deleteCourtRequest(edit._id);
+    setDeleteLoading(false);
+    if (response.status === "success") {
+      showToast(response.message, "success");
+      setEdit({} as court);
+      setPage("list");
       onReload();
     }
   };
@@ -54,7 +89,10 @@ const Courts = ({ onBack, onReload, courts }: CourtsProps) => {
       style={styles.item}
       icon={<Ionicons name="tennisball-outline" size={24} color={"#FFF"} />}
       text={item.name}
-      onPress={() => {}}
+      onPress={() => {
+        setEdit(item);
+        setPage("edit");
+      }}
     />
   );
 
@@ -64,19 +102,19 @@ const Courts = ({ onBack, onReload, courts }: CourtsProps) => {
         back
         title="Painel - Quadras"
         onBack={() => {
-          if (addCourt) setAddCourt(false);
+          if (page != "list") setPage("list");
           else onBack();
         }}
         reload
         onReload={onReload}
       />
-      {!addCourt ? (
+      {page == "list" ? (
         <>
           <OptionButton
             style={styles.button}
             icon={<Feather name="plus" size={24} />}
             text="Adicionar"
-            onPress={() => setAddCourt(true)}
+            onPress={() => setPage("add")}
           />
           <FlatList
             data={courts}
@@ -89,22 +127,44 @@ const Courts = ({ onBack, onReload, courts }: CourtsProps) => {
         <View style={styles.containerAdd}>
           <Input
             label="Nome"
-            value={values.name}
+            value={edit.name ?? values.name}
             autoCapitalize="sentences"
             keyboardType="default"
             placeholder="Nome da quadra"
-            onChangeText={(text) => setValues({ ...values, name: text })}
+            onChangeText={(text) => {
+              if (page == "edit") setEdit({ ...edit, name: text });
+              else setValues({ ...values, name: text });
+            }}
           />
 
           <Input
             label="Preço"
-            value={values.price.toString()}
+            value={
+              page == "edit" ? edit.price.toString() : values.price.toString()
+            }
             keyboardType="numeric"
             placeholder="Preço da quadra"
-            onChangeText={(text) =>
-              setValues({ ...values, price: Number(text) })
-            }
+            onChangeText={(text) => {
+              if (page == "edit") setEdit({ ...edit, price: Number(text) });
+              else setValues({ ...values, price: Number(text) });
+            }}
           />
+
+          {page == "edit" && (
+            <OptionButton
+              style={styles.deleteButton}
+              dark
+              icon={
+                deleteLoading ? (
+                  <ActivityIndicator size="small" color="#FFF" />
+                ) : (
+                  <Feather name="trash-2" size={20} color={"#FFF"} />
+                )
+              }
+              text="DELETAR"
+              onPress={handleDelete}
+            />
+          )}
 
           <OptionButton
             style={styles.saveButton}
